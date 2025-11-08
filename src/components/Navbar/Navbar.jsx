@@ -4,10 +4,12 @@ import { NavLink } from "react-router";
 import { FaHome, FaStar, FaPhone, FaSignInAlt } from "react-icons/fa";
 import logo from "../../assets/pngtree-i-m-just-here-for-the-food-funny-fast-food-lover-png-image_2310810.jpg";
 
+import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+const [menuOpen, setMenuOpen] = useState(false);
 
   const links = (
     <>
@@ -100,34 +102,68 @@ const Navbar = () => {
       <div className="hidden md:flex md:gap-6 items-center">{links}</div>
 
       {/* Avatar */}
-      <div className="dropdown dropdown-end ml-2">
-        <div
-          tabIndex={0}
-          role="button"
-          className="btn btn-ghost btn-circle avatar"
-        >
-          <div className="w-10 rounded-full">
-            <img
-              alt="User avatar"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            />
-          </div>
+      {/* Avatar Dropdown */}
+<div className="relative ml-2">
+  {/* Avatar Button */}
+  <button
+    onClick={() => setMenuOpen(!menuOpen)}
+    className="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden border-2 border-[#FF9800] hover:scale-105 transition-transform duration-300"
+  >
+    <img
+      alt="User avatar"
+      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+      className="object-cover w-full h-full"
+    />
+  </button>
+
+  {/* Dropdown Menu */}
+  {menuOpen && (
+    <>
+      {/* Backdrop for mobile click outside */}
+      <div
+        onClick={() => setMenuOpen(false)}
+        className="fixed inset-0 bg-transparent z-40"
+      ></div>
+
+      <div
+        className="absolute right-0 mt-3 w-56 bg-white border border-gray-100 rounded-xl shadow-xl 
+        transform transition-all duration-300 ease-in-out z-50"
+      >
+        <div className="p-4 border-b border-gray-100 text-center">
+          <h4 className="font-semibold text-gray-800">John Doe</h4>
+          <p className="text-sm text-gray-500">john@example.com</p>
         </div>
-        <ul
-          tabIndex={0}
-          className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
-        >
+        <ul className="py-2">
           <li>
-            <a>Profile</a>
+            <a
+              href="#profile"
+              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors"
+            >
+              <FaUser /> Profile
+            </a>
           </li>
           <li>
-            <a>Settings</a>
+            <a
+              href="#settings"
+              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors"
+            >
+              <FaCog /> Settings
+            </a>
           </li>
           <li>
-            <a>Logout</a>
+            <a
+              href="#logout"
+              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFE0B2] hover:text-red-600 font-semibold transition-colors"
+            >
+              <FaSignOutAlt /> Logout
+            </a>
           </li>
         </ul>
       </div>
+    </>
+  )}
+</div>
+
 
       {/* Mobile Slide-in Menu */}
       {isOpen && (
