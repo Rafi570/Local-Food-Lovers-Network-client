@@ -1,10 +1,12 @@
 import React from 'react';
 import Banner from '../../components/Banner/Banner';
+// import Loading from '../../components/Loading/Loading';
 
 const Home = () => {
   return (
     <div>
       <Banner></Banner>
+     
     </div>
   );
 };
