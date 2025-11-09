@@ -5,6 +5,7 @@ import AllReviews from "../components/AllReviews/AllReviews";
 import Contact from "../components/Contact/Contact";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Loading from "../components/Loading/Loading";
 
 
 
@@ -18,7 +19,12 @@ export const router = createBrowserRouter([
       {
         index: true,
         path: '/',
-        Component: Home
+        Component: Home,
+        // loader : async ()=>{
+        //   const res =await fetch ("https://server-site-assingment-10.vercel.app/best-foods")
+        //   return res.json()
+        // },
+        // hydrateFallbackElement: <Loading></Loading>
       },
       {
         path: "/all-reviews",

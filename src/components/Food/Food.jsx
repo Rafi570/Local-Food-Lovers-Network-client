@@ -1,0 +1,60 @@
+import React from "react";
+import { MapPin, Star, User } from "lucide-react";
+
+const Food = () => {
+  return (
+    <div className="max-w-sm mx-auto bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 border border-gray-100">
+      {/* Food Image */}
+      <div className="relative">
+        <img
+          src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
+          alt="Delicious Food"
+          className="w-full h-56 object-cover"
+        />
+        <span className="absolute top-3 left-3 bg-[#FF9800] text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+          Popular
+        </span>
+      </div>
+
+      {/* Content */}
+      <div className="p-5 space-y-3">
+        {/* Food Name */}
+        <h2 className="text-xl font-bold text-gray-900">Spicy Chicken Burger 🍔</h2>
+
+        {/* Restaurant Info */}
+        <div className="text-gray-700 text-sm">
+          <p className="font-medium">The Burger House</p>
+          <div className="flex items-center text-gray-500 text-xs mt-1">
+            <MapPin size={14} className="mr-1 text-[#FF9800]" />
+            <span>Dhaka, Bangladesh</span>
+          </div>
+        </div>
+
+        {/* Reviewer Info */}
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center text-gray-600 text-sm">
+            <User size={16} className="mr-1 text-[#FF9800]" />
+            <span>Reviewed by <strong>Hasan Rafi</strong></span>
+          </div>
+
+          {/* Rating */}
+          <div className="flex items-center gap-1 text-[#FF9800]">
+            <Star size={16} fill="#FF9800" />
+            <Star size={16} fill="#FF9800" />
+            <Star size={16} fill="#FF9800" />
+            <Star size={16} fill="#FF9800" />
+            <Star size={16} color="#FF9800" />
+            <span className="text-gray-700 text-xs ml-1">(4.5)</span>
+          </div>
+        </div>
+
+        {/* Button */}
+        <button className="w-full mt-3 bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold py-2.5 rounded-full transition duration-300 shadow-md hover:shadow-lg">
+          View Details
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Food;
