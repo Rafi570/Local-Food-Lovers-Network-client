@@ -9,11 +9,13 @@ import Loading from "../components/Loading/Loading";
 import PrivateRoute from "./PrivateRoute.jsx/PrivateRoute";
 import DetailsReview from "../components/DetailsReview/DetailsReview";
 import AddReview from "../pages/AddReview/AddReview";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
+    errorElement:<ErrorPage></ErrorPage>,
     children: [
       {
         index: true,

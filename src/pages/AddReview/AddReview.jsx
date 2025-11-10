@@ -1,15 +1,49 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAxios from "../../Hooks/useAxios";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const AddReview = () => {
+  const { user } = useAuth();
+  const axiosInstance = useAxios();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = ({
+    reviewText,
+    restaurantName,
+    rating,
+    location,
+    foodName,
+    foodImage,
+  }) => {
+    const newReview = {
+      foodName,
+      foodImage,
+      location,
+      rating,
+      restaurantName,
+      reviewText,
+      email: user.email,
+    };
+
+    axiosInstance
+      .post("/add-review", newReview)
+      .then((data) => {
+        console.log(data.data);
+        toast.success("Review added successfully!");
+        reset(); // reset the form
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to add review!");
+      });
   };
 
   return (
@@ -27,7 +61,9 @@ const AddReview = () => {
             {...register("foodName", { required: true })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
           />
-          {errors.foodName && <span className="text-red-500 text-sm">Food Name is required</span>}
+          {errors.foodName && (
+            <span className="text-red-500 text-sm">Food Name is required</span>
+          )}
         </div>
 
         {/* Food Image URL */}
@@ -38,7 +74,9 @@ const AddReview = () => {
             {...register("foodImage", { required: true })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
           />
-          {errors.foodImage && <span className="text-red-500 text-sm">Image URL is required</span>}
+          {errors.foodImage && (
+            <span className="text-red-500 text-sm">Image URL is required</span>
+          )}
         </div>
 
         {/* Restaurant Name */}
@@ -49,7 +87,9 @@ const AddReview = () => {
             {...register("restaurantName", { required: true })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
           />
-          {errors.restaurantName && <span className="text-red-500 text-sm">Restaurant Name is required</span>}
+          {errors.restaurantName && (
+            <span className="text-red-500 text-sm">Restaurant Name is required</span>
+          )}
         </div>
 
         {/* Location */}
@@ -60,7 +100,9 @@ const AddReview = () => {
             {...register("location", { required: true })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
           />
-          {errors.location && <span className="text-red-500 text-sm">Location is required</span>}
+          {errors.location && (
+            <span className="text-red-500 text-sm">Location is required</span>
+          )}
         </div>
 
         {/* Star Rating */}
@@ -77,7 +119,9 @@ const AddReview = () => {
             <option value="4">⭐⭐⭐⭐</option>
             <option value="5">⭐⭐⭐⭐⭐</option>
           </select>
-          {errors.rating && <span className="text-red-500 text-sm">Rating is required</span>}
+          {errors.rating && (
+            <span className="text-red-500 text-sm">Rating is required</span>
+          )}
         </div>
 
         {/* Review Text */}
@@ -88,7 +132,9 @@ const AddReview = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
             rows="4"
           ></textarea>
-          {errors.reviewText && <span className="text-red-500 text-sm">Review Text is required</span>}
+          {errors.reviewText && (
+            <span className="text-red-500 text-sm">Review Text is required</span>
+          )}
         </div>
 
         {/* Submit Button */}

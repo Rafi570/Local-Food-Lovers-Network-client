@@ -9,3 +9,26 @@ const useAxios =()=>{
   return axiosInstance
 }
 export default useAxios
+
+
+
+
+
+// foodImage
+// : 
+// "lll"
+// foodName
+// : 
+// "sosa"
+// location
+// : 
+// "h"
+// rating
+// : 
+// "2"
+// restaurantName
+// : 
+// "rr"
+// reviewText
+// : 
+// "jjjj"
