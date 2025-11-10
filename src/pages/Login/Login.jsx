@@ -48,7 +48,7 @@ const Login = () => {
           createdAt: new Date(),
         };
 
-        // ✅ Save user info to backend
+      
         axiosInstance
           .post("/users", userInfo)
           .then(() => {

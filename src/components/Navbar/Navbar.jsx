@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import {
   FaHome,
   FaStar,
-  FaPhone,
   FaSignInAlt,
   FaUser,
   FaCog,
@@ -14,21 +13,17 @@ import useAuth from "../../Hooks/useAuth";
 import toast, { Toaster } from "react-hot-toast";
 
 const Navbar = () => {
-  
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, signOutUser } = useAuth();
 
   const handleLogout = () => {
     signOutUser()
-      .then(() => {
-        toast.success("Logged out successfully!");
-      })
-      .catch((err) => {
-        toast.error("Logout failed: " + err.message);
-      });
+      .then(() => toast.success("Logged out successfully!"))
+      .catch((err) => toast.error("Logout failed: " + err.message));
   };
 
+  // Links for everyone
   const links = (
     <>
       <NavLink
@@ -91,7 +86,7 @@ const Navbar = () => {
           </NavLink>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile Hamburger */}
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(true)}
@@ -118,7 +113,7 @@ const Navbar = () => {
       {/* Desktop Menu */}
       <div className="hidden md:flex md:gap-6 items-center">{links}</div>
 
-      {/* Avatar or Login */}
+      {/* Avatar or Protected Links */}
       {user ? (
         <div className="relative ml-2">
           {/* Avatar Button */}
@@ -149,6 +144,17 @@ const Navbar = () => {
                   <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
                 <ul className="py-2">
+                  {/* Protected Add Review Link */}
+                  <li>
+                    <NavLink
+                      to="/add-review"
+                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
+                    >
+                      <FaCog /> Add Review
+                    </NavLink>
+                  </li>
+
+                  {/* Profile */}
                   <li>
                     <a
                       href="#profile"
@@ -157,6 +163,8 @@ const Navbar = () => {
                       <FaUser /> Profile
                     </a>
                   </li>
+
+                  {/* Logout */}
                   <li>
                     <button
                       onClick={handleLogout}
@@ -188,9 +196,7 @@ const Navbar = () => {
                   alt="Logo"
                   className="w-10 h-10 rounded-full object-cover"
                 />
-                <span className="font-bold text-[#FF9800] text-lg">
-                  Food Lover
-                </span>
+                <span className="font-bold text-[#FF9800] text-lg">Food Lover</span>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
@@ -199,7 +205,25 @@ const Navbar = () => {
                 ✕
               </button>
             </div>
-            <div className="flex flex-col mt-4 space-y-2 px-4">{links}</div>
+            <div className="flex flex-col mt-4 space-y-2 px-4">
+              {links}
+
+              {/* Show Add Review in Mobile if logged in */}
+              {user && (
+                <NavLink
+                  to="/add-review"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-4 py-2 rounded-md transition duration-300 ${
+                      isActive
+                        ? "bg-[#FF9800] text-white font-semibold shadow-md"
+                        : "text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800]"
+                    }`
+                  }
+                >
+                  <FaCog /> Add Review
+                </NavLink>
+              )}
+            </div>
           </div>
         </>
       )}

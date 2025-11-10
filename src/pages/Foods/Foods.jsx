@@ -27,7 +27,7 @@ const Foods = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-16 ">
       {/* Heading */}
       <div className="text-center mb-10">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3">
