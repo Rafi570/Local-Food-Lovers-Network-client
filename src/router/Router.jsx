@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
-    errorElement:<ErrorPage></ErrorPage>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
@@ -30,18 +30,26 @@ export const router = createBrowserRouter([
       {
         path: "/all-reviews",
         Component: AllReviews,
+        loader: async () => {
+          const res = await fetch(
+            "https://server-site-assingment-10.vercel.app/review"
+          );
+          return res.json();
+        },
+        hydrateFallbackElement: <Loading></Loading>,
       },
       {
         path: "/details-review/:id",
         loader: ({ params }) =>
-          fetch(`https://server-site-assingment-10.vercel.app/foods/${params.id}`).then((res) =>
-            res.json()
-          ),
-          element: (
-            <PrivateRoute>
-              <DetailsReview></DetailsReview>
-            </PrivateRoute>
-          )
+          fetch(
+            `https://server-site-assingment-10.vercel.app/foods/${params.id}`
+          ).then((res) => res.json()),
+        hydrateFallbackElement: <Loading></Loading>,
+        element: (
+          <PrivateRoute>
+            <DetailsReview></DetailsReview>
+          </PrivateRoute>
+        ),
         // Component: DetailsReview,
       },
 

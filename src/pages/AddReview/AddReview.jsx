@@ -31,6 +31,7 @@ const AddReview = () => {
       restaurantName,
       reviewText,
       email: user.email,
+      createdAt: new Date().toISOString(), 
     };
 
     axiosInstance
@@ -38,7 +39,7 @@ const AddReview = () => {
       .then((data) => {
         console.log(data.data);
         toast.success("Review added successfully!");
-        reset(); // reset the form
+        reset();
       })
       .catch((err) => {
         console.error(err);
@@ -88,7 +89,9 @@ const AddReview = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
           />
           {errors.restaurantName && (
-            <span className="text-red-500 text-sm">Restaurant Name is required</span>
+            <span className="text-red-500 text-sm">
+              Restaurant Name is required
+            </span>
           )}
         </div>
 
@@ -133,7 +136,9 @@ const AddReview = () => {
             rows="4"
           ></textarea>
           {errors.reviewText && (
-            <span className="text-red-500 text-sm">Review Text is required</span>
+            <span className="text-red-500 text-sm">
+              Review Text is required
+            </span>
           )}
         </div>
 

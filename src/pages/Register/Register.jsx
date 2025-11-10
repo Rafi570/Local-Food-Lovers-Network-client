@@ -98,7 +98,8 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
+    <div className="pt-20 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32 px-4">
+          <div className="max-w-md mx-auto p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
       <Toaster position="top-right" reverseOrder={false} />
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">
         Create an Account
@@ -217,6 +218,8 @@ const Register = () => {
         </Link>
       </p>
     </div>
+    </div>
+
   );
 };
 

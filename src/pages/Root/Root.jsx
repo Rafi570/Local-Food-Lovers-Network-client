@@ -4,6 +4,7 @@ import { Outlet } from "react-router";
 import Footer from "../../components/Footer/Footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Toaster } from "react-hot-toast";
 
 const Root = () => {
     useEffect(() => {
@@ -13,12 +14,13 @@ const Root = () => {
     });
   }, []);
   return (
-    <div>
+    <div className="bg-gray-50">
       <Navbar></Navbar>
-      <div className="mt-20">
+      <div className="">
         <Outlet></Outlet>
       </div>
       <Footer></Footer>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };
