@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute.jsx/PrivateRoute";
 import DetailsReview from "../components/DetailsReview/DetailsReview";
 import AddReview from "../pages/AddReview/AddReview";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Myreview from "../pages/Myreview/Myreview";
 
 export const router = createBrowserRouter([
   {
@@ -63,8 +64,20 @@ export const router = createBrowserRouter([
       },
       {
         path: "/add-review",
-        Component: AddReview,
+        element:(
+          <PrivateRoute>
+            <AddReview></AddReview>
+          </PrivateRoute>
+        )
       },
+      {
+        path :'/my-review',
+        element:(
+          <PrivateRoute>
+            <Myreview></Myreview>
+          </PrivateRoute>
+        )
+      }
     ],
   },
 ]);
