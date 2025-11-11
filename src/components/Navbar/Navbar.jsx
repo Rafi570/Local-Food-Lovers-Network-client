@@ -9,6 +9,7 @@ import {
   FaSignOutAlt,
   FaCommentDots,
   FaClipboardList,
+  FaHeart,
 } from "react-icons/fa";
 import logo from "../../assets/pngtree-i-m-just-here-for-the-food-funny-fast-food-lover-png-image_2310810.jpg";
 import useAuth from "../../Hooks/useAuth";
@@ -159,6 +160,14 @@ const Navbar = () => {
                   {/* Profile */}
                   <li>
                     <NavLink
+                      to="/my-favorites"
+                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
+                    >
+                      <FaHeart /> My Favorites
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
                       to="/my-review"
                       className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
                     >
@@ -198,7 +207,9 @@ const Navbar = () => {
                   alt="Logo"
                   className="w-10 h-10 rounded-full object-cover"
                 />
-                <span className="font-bold text-[#FF9800] text-lg">Food Lover</span>
+                <span className="font-bold text-[#FF9800] text-lg">
+                  Food Lover
+                </span>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
