@@ -3,7 +3,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import useAxios from "../../Hooks/useAxios";
 import { Link } from "react-router";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-
+import Swal from "sweetalert2";
 const Myreview = () => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
@@ -17,17 +17,42 @@ const Myreview = () => {
     }
   }, [user, axiosInstance]);
 
-  // 🔴 Delete Handler
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this review?")) {
-      axiosInstance.delete(`/review/${id}`).then((res) => {
-        if (res.data.deletedCount > 0) {
-          setReviews((prev) => prev.filter((r) => r._id !== id));
-          alert("Review deleted successfully!");
-        }
-      });
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosInstance.delete(`/review/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            setReviews((prev) => prev.filter((r) => r._id !== id));
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your review has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
   };
+
+  // 🔴 Delete Handler
+  // const handleDelete = (id) => {
+  //   if (window.confirm("Are you sure you want to delete this review?")) {
+  //     axiosInstance.delete(`/review/${id}`).then((res) => {
+  //       if (res.data.deletedCount > 0) {
+  //         setReviews((prev) => prev.filter((r) => r._id !== id));
+  //         alert("Review deleted successfully!");
+  //       }
+  //     });
+  //   }
+  // };
 
   return (
     <div className="pt-20 px-4 sm:px-6 lg:px-8 min-h-screen bg-gray-50">
@@ -88,7 +113,9 @@ const Myreview = () => {
                   </td>
 
                   {/* Restaurant Name */}
-                  <td className="px-4 py-3 text-gray-700">{rev.restaurantName}</td>
+                  <td className="px-4 py-3 text-gray-700">
+                    {rev.restaurantName}
+                  </td>
 
                   {/* Date */}
                   <td className="px-4 py-3 text-gray-500 text-sm">
