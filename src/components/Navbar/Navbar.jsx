@@ -7,6 +7,8 @@ import {
   FaUser,
   FaCog,
   FaSignOutAlt,
+  FaCommentDots,
+  FaClipboardList,
 } from "react-icons/fa";
 import logo from "../../assets/pngtree-i-m-just-here-for-the-food-funny-fast-food-lover-png-image_2310810.jpg";
 import useAuth from "../../Hooks/useAuth";
@@ -156,12 +158,12 @@ const Navbar = () => {
 
                   {/* Profile */}
                   <li>
-                    <a
-                      href="#profile"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors"
+                    <NavLink
+                      to="/my-review"
+                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
                     >
-                      <FaUser /> Profile
-                    </a>
+                      <FaClipboardList /> My Review
+                    </NavLink>
                   </li>
 
                   {/* Logout */}

@@ -11,6 +11,7 @@ import DetailsReview from "../components/DetailsReview/DetailsReview";
 import AddReview from "../pages/AddReview/AddReview";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Myreview from "../pages/Myreview/Myreview";
+import EditReview from "../components/EditReview/EditReview";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,14 @@ export const router = createBrowserRouter([
         element:(
           <PrivateRoute>
             <AddReview></AddReview>
+          </PrivateRoute>
+        )
+      },
+      {
+        path :'/edit-review/:id',
+        element:(
+          <PrivateRoute>
+            <EditReview></EditReview>
           </PrivateRoute>
         )
       },
