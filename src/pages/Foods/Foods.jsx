@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router"; // ✅ Import useNavigate
 import Food from "../../components/Food/Food";
 import Loading from "../../components/Loading/Loading";
 import useAxios from "../../Hooks/useAxios";
 
-
 const Foods = () => {
-  const axiosInstance = useAxios()
-  // console.log(data);
+  const axiosInstance = useAxios();
+  const navigate = useNavigate(); // ✅ Hook for navigation
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,13 +21,12 @@ const Foods = () => {
         console.error(err);
         setLoading(false);
       });
-  }, []); 
-
+  }, []);
 
   if (loading) return <Loading />;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-16 ">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
       {/* Heading */}
       <div className="text-center mb-10">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3">
@@ -44,6 +43,16 @@ const Foods = () => {
         {data?.map((food) => (
           <Food key={food._id} food={food} />
         ))}
+      </div>
+
+      {/* ✅ Show All Reviews Button - Centered */}
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={() => navigate("/all-reviews")}
+          className="px-6 py-3 bg-[#FF9800] text-white rounded-lg font-semibold hover:bg-[#FF6D00] transition text-lg sm:text-base"
+        >
+          Show All Reviews
+        </button>
       </div>
     </div>
   );
