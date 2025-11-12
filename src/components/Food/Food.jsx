@@ -9,7 +9,7 @@ const Food = ({ food }) => {
       {/* Food Image */}
       <div className="relative">
         <img
-          src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80" // dynamic photo
+          src={food.photo}
           alt={food.foodName}
           className="w-full h-56 object-cover"
         />

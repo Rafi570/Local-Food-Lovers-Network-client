@@ -4,6 +4,7 @@ import Banner from '../../components/Banner/Banner';
 import Foods from '../Foods/Foods';
 // import TopLocalFoodSpots from '../../components/TopLocalFoodSpots/TopLocalFoodSpots';
 import LocalFlavorHighlights from '../../components/LocalFlavorHighlights/LocalFlavorHighlights';
+import Add2 from '../../components/Add2/Add2';
 // import AddReview from '../AddReview/AddReview';
 // import Loading from '../../components/Loading/Loading';
 
@@ -15,7 +16,9 @@ const Home = () => {
       <Banner></Banner>
       <Foods></Foods>
       {/* <TopLocalFoodSpots></TopLocalFoodSpots> */}
+            <Add2></Add2>
       <LocalFlavorHighlights></LocalFlavorHighlights>
+
       {/* <AddReview></AddReview> */}
      
     </div>

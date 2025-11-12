@@ -3,7 +3,7 @@ import logo from "../../assets/pngtree-i-m-just-here-for-the-food-funny-fast-foo
 
 const Footer = () => {
   return (
-    <footer className="bg-[#FFF3E0] text-gray-700 pt-10 pb-6 px-6 md:px-20 mt-20">
+    <footer className="bg-[#FFF3E0] mt-10 text-gray-700 pt-10 pb-6 px-6 md:px-20 ">
       {/* Main content */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* Logo + Description */}
