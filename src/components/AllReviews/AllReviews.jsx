@@ -74,6 +74,7 @@ const AllReviews = () => {
           foodId: food._id,
           foodName: food.foodName,
           foodImage: food.foodImage,
+          location: food.location,
           restaurantName: food.restaurantName,
         });
         setFavoriteIds((prev) => ({
@@ -112,9 +113,11 @@ const AllReviews = () => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-[#FF9800]/20">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Favorite
-              </th>
+              {user?.email && (
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Favorite
+                </th>
+              )}
               <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                 Food
               </th>
@@ -148,18 +151,21 @@ const AllReviews = () => {
                 key={review._id}
                 className="hover:bg-[#FF9800]/10 transition-colors duration-300"
               >
-                {/* Favorite Icon */}
-                <td className="px-4 py-3 flex items-center justify-center">
-                  <button
-                    onClick={() => handleFavoriteToggle(review)}
-                    disabled={loadingFavorites}
-                    className={`text-2xl ${
-                      favoriteIds[review._id] ? "text-red-500" : "text-gray-400"
-                    }`}
-                  >
-                    {favoriteIds[review._id] ? "❤️" : "🤍"}
-                  </button>
-                </td>
+                {user?.email && (
+                  <td className="px-4 py-3 flex items-center justify-center">
+                    <button
+                      onClick={() => handleFavoriteToggle(review)}
+                      disabled={loadingFavorites}
+                      className={`text-2xl ${
+                        favoriteIds[review._id]
+                          ? "text-red-500"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      {favoriteIds[review._id] ? "❤️" : "🤍"}
+                    </button>
+                  </td>
+                )}
 
                 {/* Food Image */}
                 <td className="px-4 py-3">
