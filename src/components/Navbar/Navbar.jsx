@@ -43,7 +43,7 @@ const Navbar = () => {
       </NavLink>
 
       <NavLink
-        to="/all-reviews"
+        to="/about-us"
         className={({ isActive }) =>
           `flex items-center gap-2 px-4 py-2 rounded-md transition duration-300 ${
             isActive
@@ -52,7 +52,7 @@ const Navbar = () => {
           }`
         }
       >
-        <FaStar /> All Reviews
+        <FaStar /> About
       </NavLink>
 
       {!user && (
@@ -156,6 +156,13 @@ const Navbar = () => {
                       <FaCog /> Add Review
                     </NavLink>
                   </li>
+
+                  <NavLink
+                    to="/all-reviews"
+                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
+                  >
+                    <FaStar /> All Reviews
+                  </NavLink>
 
                   {/* Profile */}
                   <li>

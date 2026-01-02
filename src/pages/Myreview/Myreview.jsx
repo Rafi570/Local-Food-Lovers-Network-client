@@ -4,6 +4,7 @@ import useAxios from "../../Hooks/useAxios";
 import { Link } from "react-router";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+
 const Myreview = () => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
@@ -41,18 +42,6 @@ const Myreview = () => {
       }
     });
   };
-
-  // 🔴 Delete Handler
-  // const handleDelete = (id) => {
-  //   if (window.confirm("Are you sure you want to delete this review?")) {
-  //     axiosInstance.delete(`/review/${id}`).then((res) => {
-  //       if (res.data.deletedCount > 0) {
-  //         setReviews((prev) => prev.filter((r) => r._id !== id));
-  //         alert("Review deleted successfully!");
-  //       }
-  //     });
-  //   }
-  // };
 
   return (
     <div className="pt-20 px-4 sm:px-6 lg:px-8 min-h-screen bg-gray-50">
@@ -147,9 +136,9 @@ const Myreview = () => {
               <tr>
                 <td
                   colSpan="5"
-                  className="text-center py-6 text-gray-500 italic"
+                  className="text-center py-10 text-gray-500 italic font-semibold"
                 >
-                  No reviews found.
+                  No reviews found 😔
                 </td>
               </tr>
             )}

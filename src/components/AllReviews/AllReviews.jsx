@@ -17,7 +17,8 @@ const AllReviews = () => {
       const { data } = await axiosInstance.get(`/review?search=${value}`);
       setReviews(data);
     } catch (error) {
-      // console.error("Error fetching reviews:", error);
+      console.error("Error fetching reviews:", error);
+      setReviews([]);
     }
   };
 
@@ -38,7 +39,7 @@ const AllReviews = () => {
       setLoadingFavorites(true);
       const res = await axiosInstance.get(`/my-favorites?email=${user.email}`);
       const favMap = res.data.favorites.reduce((acc, fav) => {
-        acc[fav.foodId] = fav._id; // foodId → favorite _id
+        acc[fav.foodId] = fav._id;
         return acc;
       }, {});
       setFavoriteIds(favMap);
@@ -60,7 +61,6 @@ const AllReviews = () => {
 
     try {
       if (favoriteIds[food._id]) {
-        // Remove favorite
         await axiosInstance.delete(`/my-favorites/${favoriteIds[food._id]}`);
         setFavoriteIds((prev) => {
           const updated = { ...prev };
@@ -68,7 +68,6 @@ const AllReviews = () => {
           return updated;
         });
       } else {
-        // Add favorite
         const res = await axiosInstance.post("/my-favorites", {
           email: user.email,
           foodId: food._id,
@@ -110,113 +109,105 @@ const AllReviews = () => {
 
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-[#FF9800]/20">
-            <tr>
-              {user?.email && (
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                  Favorite
-                </th>
-              )}
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Food
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Name
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Restaurant
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Location
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Rating
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Reviewer
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Date
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Review
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="divide-y divide-gray-200">
-            {reviews.map((review) => (
-              <tr
-                key={review._id}
-                className="hover:bg-[#FF9800]/10 transition-colors duration-300"
-              >
+        {reviews.length === 0 ? (
+          <div className="text-center py-10 text-gray-500 font-semibold text-lg">
+            No data found 😔
+          </div>
+        ) : (
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-[#FF9800]/20">
+              <tr>
                 {user?.email && (
-                  <td className="px-4 py-3 flex items-center justify-center">
-                    <button
-                      onClick={() => handleFavoriteToggle(review)}
-                      disabled={loadingFavorites}
-                      className={`text-2xl ${
-                        favoriteIds[review._id]
-                          ? "text-red-500"
-                          : "text-gray-400"
-                      }`}
-                    >
-                      {favoriteIds[review._id] ? "❤️" : "🤍"}
-                    </button>
-                  </td>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                    Favorite
+                  </th>
                 )}
-
-                {/* Food Image */}
-                <td className="px-4 py-3">
-                  <img
-                    src={review.foodImage}
-                    alt={review.foodName}
-                    className="w-20 h-20 object-cover rounded-lg"
-                  />
-                </td>
-
-                {/* Food Name */}
-                <td className="px-4 py-3 font-semibold text-gray-800">
-                  {review.foodName}
-                </td>
-
-                {/* Restaurant */}
-                <td className="px-4 py-3 text-gray-700">
-                  {review.restaurantName}
-                </td>
-
-                {/* Location */}
-                <td className="px-4 py-3 text-gray-700">{review.location}</td>
-
-                {/* Rating */}
-                <td className="px-4 py-3 text-yellow-500 font-bold">
-                  {"⭐".repeat(review.rating)}{" "}
-                  <span className="text-gray-600 font-normal">
-                    ({review.rating}/5)
-                  </span>
-                </td>
-
-                {/* Reviewer Email */}
-                <td className="px-4 py-3 text-gray-700">{review.email}</td>
-
-                {/* Date */}
-                <td className="px-4 py-3 text-gray-500 text-sm">
-                  {new Date(review.createdAt).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </td>
-
-                {/* Review Text */}
-                <td className="px-4 py-3 text-gray-700 max-w-xs truncate">
-                  {review.reviewText}
-                </td>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Food
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Name
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Restaurant
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Location
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Rating
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Reviewer
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Date
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                  Review
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="divide-y divide-gray-200">
+              {reviews.map((review) => (
+                <tr
+                  key={review._id}
+                  className="hover:bg-[#FF9800]/10 transition-colors duration-300"
+                >
+                  {user?.email && (
+                    <td className="px-4 py-3 flex items-center justify-center">
+                      <button
+                        onClick={() => handleFavoriteToggle(review)}
+                        disabled={loadingFavorites}
+                        className={`text-2xl ${
+                          favoriteIds[review._id]
+                            ? "text-red-500"
+                            : "text-gray-400"
+                        }`}
+                      >
+                        {favoriteIds[review._id] ? "❤️" : "🤍"}
+                      </button>
+                    </td>
+                  )}
+
+                  <td className="px-4 py-3">
+                    <img
+                      src={review.foodImage}
+                      alt={review.foodName}
+                      className="w-20 h-20 object-cover rounded-lg"
+                    />
+                  </td>
+
+                  <td className="px-4 py-3 font-semibold text-gray-800">
+                    {review.foodName}
+                  </td>
+                  <td className="px-4 py-3 text-gray-700">
+                    {review.restaurantName}
+                  </td>
+                  <td className="px-4 py-3 text-gray-700">{review.location}</td>
+                  <td className="px-4 py-3 text-yellow-500 font-bold">
+                    {"⭐".repeat(review.rating)}{" "}
+                    <span className="text-gray-600 font-normal">
+                      ({review.rating}/5)
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-gray-700">{review.email}</td>
+                  <td className="px-4 py-3 text-gray-500 text-sm">
+                    {new Date(review.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td className="px-4 py-3 text-gray-700 max-w-xs truncate">
+                    {review.reviewText}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

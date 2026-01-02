@@ -13,6 +13,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Myreview from "../pages/Myreview/Myreview";
 import EditReview from "../components/EditReview/EditReview";
 import MyFavorites from "../pages/MyFavorites/MyFavorites";
+import AboutUs from "../components/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
           return res.json();
         },
         hydrateFallbackElement: <Loading></Loading>,
+      },
+      {
+path:"/about-us",
+Component:AboutUs
       },
       {
         path: "/details-review/:id",
