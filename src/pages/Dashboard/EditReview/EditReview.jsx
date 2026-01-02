@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import useAxios from "../../Hooks/useAxios";
+import useAxios from "../../../Hooks/useAxios";
 import Swal from "sweetalert2";
 
 const EditReview = () => {
@@ -25,7 +25,6 @@ const EditReview = () => {
     setReview((prev) => ({ ...prev, [name]: value }));
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     axiosInstance
@@ -37,7 +36,7 @@ const EditReview = () => {
             title: "Updated!",
             text: "Your review has been updated successfully.",
           }).then(() => {
-            navigate("/my-review");
+            navigate("/dashboard/my-review");
           });
         }
       })
@@ -51,7 +50,7 @@ const EditReview = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+    <div className="min-h-screen flex items-center justify-center  px-4">
       <div className="w-full max-w-lg bg-white rounded-xl shadow-lg p-6">
         <h2 className="text-2xl font-bold text-orange-600 mb-6 text-center">
           Edit Review

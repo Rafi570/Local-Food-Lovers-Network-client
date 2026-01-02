@@ -96,6 +96,28 @@ const DashboardLayout = () => {
                 All Reviews
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/dashboard/add-review"
+                className={({ isActive }) =>
+                  isActive ? activeClass : normalClass
+                }
+              >
+                <FaListAlt />
+                Add Review
+              </NavLink>
+            </li>
+                        <li>
+              <NavLink
+                to="/dashboard/my-review"
+                className={({ isActive }) =>
+                  isActive ? activeClass : normalClass
+                }
+              >
+                <FaListAlt />
+                My Review
+              </NavLink>
+            </li>
           </ul>
         </aside>
       </div>

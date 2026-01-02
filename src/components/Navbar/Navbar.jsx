@@ -156,21 +156,8 @@ const Navbar = () => {
                       <FaCog /> Dashboard
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      to="/add-review"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
-                    >
-                      <FaCog /> Add Review
-                    </NavLink>
-                  </li>
 
-                  <NavLink
-                    to="/all-reviews"
-                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
-                  >
-                    <FaStar /> All Reviews
-                  </NavLink>
+
 
                   {/* Profile */}
                   <li>
@@ -181,14 +168,7 @@ const Navbar = () => {
                       <FaHeart /> My Favorites
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      to="/my-review"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
-                    >
-                      <FaClipboardList /> My Review
-                    </NavLink>
-                  </li>
+
 
                   {/* Logout */}
                   <li>

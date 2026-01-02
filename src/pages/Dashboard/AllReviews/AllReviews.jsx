@@ -94,7 +94,7 @@ const AllReviews = () => {
   };
 
   return (
-    <div className="pt-20 px-4 sm:px-6 lg:px-8 min-h-screen">
+    <div className="max-w-5xl mx-auto">
       {/* 🔸 Heading */}
       <div className="text-center mb-8 px-2">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-[#FF6D00] leading-tight">

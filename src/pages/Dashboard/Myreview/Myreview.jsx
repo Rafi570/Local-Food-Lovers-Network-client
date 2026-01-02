@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
-import useAxios from "../../Hooks/useAxios";
+// import { AuthContext } from "../../contexts/AuthContext";
+// import useAxios from "../../Hooks/useAxios";
 import { Link } from "react-router";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxios from "../../../Hooks/useAxios";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Myreview = () => {
   const { user } = useContext(AuthContext);
@@ -44,7 +46,7 @@ const Myreview = () => {
   };
 
   return (
-    <div className="pt-20 px-4 sm:px-6 lg:px-8 min-h-screen bg-gray-50">
+    <div className="max-w-5xl mx-auto">
       {/* Title/Header */}
       <div className="mb-8 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold text-orange-600 mb-2">
@@ -118,7 +120,7 @@ const Myreview = () => {
                   {/* Actions */}
                   <td className="px-4 py-3 text-center flex justify-center gap-4">
                     <Link
-                      to={`/edit-review/${rev._id}`}
+                      to={`/dashboard/edit-review/${rev._id}`}
                       className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800"
                     >
                       <FaEdit /> Edit

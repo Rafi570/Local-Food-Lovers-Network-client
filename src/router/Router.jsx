@@ -7,16 +7,17 @@ import Register from "../pages/Register/Register";
 import Loading from "../components/Loading/Loading";
 import PrivateRoute from "./PrivateRoute.jsx/PrivateRoute";
 import DetailsReview from "../components/DetailsReview/DetailsReview";
-// import AddReview from "../pages/AddReview/AddReview";
+
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import Myreview from "../pages/Myreview/Myreview";
-import EditReview from "../components/EditReview/EditReview";
+
+
 import MyFavorites from "../pages/MyFavorites/MyFavorites";
 import AboutUs from "../components/AboutUs/AboutUs";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import AddReview from "../pages/Dashboard/AddReview/AddReview";
 import AllReviews from "../pages/Dashboard/AllReviews/AllReviews";
-
+import Myreview from "../pages/Dashboard/Myreview/Myreview";
+import EditReview from "../pages/Dashboard/EditReview/EditReview";
 
 export const router = createBrowserRouter([
   {
@@ -72,30 +73,7 @@ export const router = createBrowserRouter([
         path: "/auth-register",
         Component: Register,
       },
-      {
-        path: "/add-review",
-        element: (
-          <PrivateRoute>
-            <AddReview></AddReview>
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/edit-review/:id",
-        element: (
-          <PrivateRoute>
-            <EditReview></EditReview>
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/my-review",
-        element: (
-          <PrivateRoute>
-            <Myreview></Myreview>
-          </PrivateRoute>
-        ),
-      },
+
       {
         path: "/my-favorites",
         element: (
@@ -124,6 +102,30 @@ export const router = createBrowserRouter([
           return res.json();
         },
         hydrateFallbackElement: <Loading></Loading>,
+      },
+      {
+        path: "add-review",
+        element: (
+          <PrivateRoute>
+            <AddReview></AddReview>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-review",
+        element: (
+          <PrivateRoute>
+            <Myreview></Myreview>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "edit-review/:id",
+        element: (
+          <PrivateRoute>
+            <EditReview></EditReview>
+          </PrivateRoute>
+        ),
       },
     ],
   },

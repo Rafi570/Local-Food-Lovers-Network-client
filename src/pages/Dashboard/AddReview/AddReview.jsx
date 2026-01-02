@@ -1,8 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-// import useAxios from "../../Hooks/useAxios";
-// import useAuth from "../../Hooks/useAuth";
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 import useAxios from "../../../Hooks/useAxios";
 import useAuth from "../../../Hooks/useAuth";
 
@@ -17,7 +15,7 @@ const AddReview = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({
+  const onSubmit = async ({
     reviewText,
     restaurantName,
     rating,
@@ -25,6 +23,8 @@ const AddReview = () => {
     foodName,
     foodImage,
   }) => {
+    if (!user?.email) return;
+
     const newReview = {
       foodName,
       foodImage,
@@ -36,124 +36,155 @@ const AddReview = () => {
       createdAt: new Date().toISOString(),
     };
 
-    axiosInstance
-      .post("/add-review", newReview)
-      .then((data) => {
-        console.log(data.data);
-        toast.success("Review added successfully!");
-        reset();
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to add review!");
+    try {
+      await axiosInstance.post("/add-review", newReview);
+
+      // SweetAlert success popup
+      Swal.fire({
+        icon: "success",
+        title: "Review Added!",
+        text: "Your review has been submitted successfully.",
+        showConfirmButton: false,
+        timer: 2000,
       });
+
+      reset();
+    } catch (err) {
+      console.error(err);
+
+      // SweetAlert error popup
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "Something went wrong. Please try again!",
+      });
+    }
   };
 
   return (
-    <div className="pt-20 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32 px-4">
-      <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
-        <h1 className="text-3xl font-bold mb-6 text-[#FF9800] text-center">
-          Add Your Review
+    <div className="max-w-5xl mx-auto">
+      {/* Page Title */}
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#FF6D00] leading-tight">
+          Add Review
         </h1>
+        <p className="text-gray-500 mt-2">
+          Share your food experience with others
+        </p>
+      </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Food Name */}
-          <div>
-            <label className="block mb-1 font-medium">Food Name</label>
-            <input
-              type="text"
-              {...register("foodName", { required: true })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-            />
-            {errors.foodName && (
-              <span className="text-red-500 text-sm">
-                Food Name is required
-              </span>
-            )}
+      {/* Card */}
+      <div className="bg-white rounded-xl shadow-md p-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Grid Inputs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Food Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Food Name
+              </label>
+              <input
+                type="text"
+                {...register("foodName", { required: true })}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                placeholder="Enter food name"
+              />
+              {errors.foodName && (
+                <p className="text-xs text-red-500 mt-1">Food name is required</p>
+              )}
+            </div>
+
+            {/* Restaurant Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Restaurant Name
+              </label>
+              <input
+                type="text"
+                {...register("restaurantName", { required: true })}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                placeholder="Restaurant name"
+              />
+              {errors.restaurantName && (
+                <p className="text-xs text-red-500 mt-1">Restaurant name is required</p>
+              )}
+            </div>
+
+            {/* Location */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Location
+              </label>
+              <input
+                type="text"
+                {...register("location", { required: true })}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                placeholder="Location"
+              />
+              {errors.location && (
+                <p className="text-xs text-red-500 mt-1">Location is required</p>
+              )}
+            </div>
+
+            {/* Rating */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Rating
+              </label>
+              <select
+                {...register("rating", { required: true })}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              >
+                <option value="">Select rating</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+              </select>
+              {errors.rating && (
+                <p className="text-xs text-red-500 mt-1">Rating is required</p>
+              )}
+            </div>
           </div>
 
           {/* Food Image URL */}
           <div>
-            <label className="block mb-1 font-medium">Food Image URL</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Food Image URL
+            </label>
             <input
               type="text"
               {...register("foodImage", { required: true })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              placeholder="https://image-url.com"
             />
             {errors.foodImage && (
-              <span className="text-red-500 text-sm">
-                Image URL is required
-              </span>
-            )}
-          </div>
-
-          {/* Restaurant Name */}
-          <div>
-            <label className="block mb-1 font-medium">Restaurant Name</label>
-            <input
-              type="text"
-              {...register("restaurantName", { required: true })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-            />
-            {errors.restaurantName && (
-              <span className="text-red-500 text-sm">
-                Restaurant Name is required
-              </span>
-            )}
-          </div>
-
-          {/* Location */}
-          <div>
-            <label className="block mb-1 font-medium">Location</label>
-            <input
-              type="text"
-              {...register("location", { required: true })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-            />
-            {errors.location && (
-              <span className="text-red-500 text-sm">Location is required</span>
-            )}
-          </div>
-
-          {/* Star Rating */}
-          <div>
-            <label className="block mb-1 font-medium">Star Rating</label>
-            <select
-              {...register("rating", { required: true })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-            >
-              <option value="">Select rating</option>
-              <option value="1">⭐</option>
-              <option value="2">⭐⭐</option>
-              <option value="3">⭐⭐⭐</option>
-              <option value="4">⭐⭐⭐⭐</option>
-              <option value="5">⭐⭐⭐⭐⭐</option>
-            </select>
-            {errors.rating && (
-              <span className="text-red-500 text-sm">Rating is required</span>
+              <p className="text-xs text-red-500 mt-1">Image URL is required</p>
             )}
           </div>
 
           {/* Review Text */}
           <div>
-            <label className="block mb-1 font-medium">Review Text</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Review
+            </label>
             <textarea
               {...register("reviewText", { required: true })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
               rows="4"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              placeholder="Write your experience..."
             ></textarea>
             {errors.reviewText && (
-              <span className="text-red-500 text-sm">
-                Review Text is required
-              </span>
+              <p className="text-xs text-red-500 mt-1">Review text is required</p>
             )}
           </div>
 
           {/* Submit Button */}
-          <div className="text-center">
+          <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold px-6 py-2 rounded-full transition duration-300"
+              className="px-6 py-2 rounded-lg bg-orange-500 text-white font-semibold hover:bg-orange-600 transition"
             >
               Submit Review
             </button>
