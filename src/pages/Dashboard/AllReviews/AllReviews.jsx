@@ -1,24 +1,31 @@
-import React, { useState, useEffect } from "react";
-import useAxios from "../../Hooks/useAxios";
-import useAuth from "../../Hooks/useAuth";
+import React, { useEffect, useState } from "react";
+import useAuth from "../../../Hooks/useAuth";
+import useAxios from "../../../Hooks/useAxios";
+// import useAxios from "../../Hooks/useAxios";
+// import useAuth from "../../Hooks/useAuth";
 
 const AllReviews = () => {
   const [search, setSearch] = useState("");
   const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+
   const { user } = useAuth();
   const axiosInstance = useAxios();
 
   const [favoriteIds, setFavoriteIds] = useState({});
   const [loadingFavorites, setLoadingFavorites] = useState(true);
 
-  // Fetch all reviews
+  // 🔹 Fetch all reviews
   const fetchReviews = async (value = "") => {
     try {
+      setReviewsLoading(true);
       const { data } = await axiosInstance.get(`/review?search=${value}`);
       setReviews(data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
       setReviews([]);
+    } finally {
+      setReviewsLoading(false);
     }
   };
 
@@ -32,7 +39,7 @@ const AllReviews = () => {
     fetchReviews(value);
   };
 
-  // Fetch user's favorites
+  // 🔹 Fetch favorites
   const fetchFavorites = async () => {
     if (!user?.email) return;
     try {
@@ -55,7 +62,7 @@ const AllReviews = () => {
     fetchFavorites();
   }, [user?.email]);
 
-  // Toggle favorite
+  // 🔹 Toggle favorite
   const handleFavoriteToggle = async (food) => {
     if (!user?.email || !food?._id) return;
 
@@ -88,16 +95,17 @@ const AllReviews = () => {
 
   return (
     <div className="pt-20 px-4 sm:px-6 lg:px-8 min-h-screen">
-      {/* Heading */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-[#FF6D00] mb-3">
+      {/* 🔸 Heading */}
+      <div className="text-center mb-8 px-2">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-[#FF6D00] leading-tight">
           🌟 All Food Reviews
         </h1>
-        <p className="text-gray-700 text-lg md:text-xl mb-4">
+
+        <p className="text-gray-700 text-sm sm:text-base md:text-xl mt-2 mb-4">
           Check out what food lovers are saying!
         </p>
 
-        {/* Search Bar */}
+        {/* Search */}
         <input
           type="text"
           value={search}
@@ -107,9 +115,13 @@ const AllReviews = () => {
         />
       </div>
 
-      {/* Table */}
+      {/* 🔸 Table / Loading / Empty */}
       <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-        {reviews.length === 0 ? (
+        {reviewsLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <span className="loading loading-spinner loading-lg text-orange-500"></span>
+          </div>
+        ) : reviews.length === 0 ? (
           <div className="text-center py-10 text-gray-500 font-semibold text-lg">
             No data found 😔
           </div>
@@ -156,7 +168,7 @@ const AllReviews = () => {
                   className="hover:bg-[#FF9800]/10 transition-colors duration-300"
                 >
                   {user?.email && (
-                    <td className="px-4 py-3 flex items-center justify-center">
+                    <td className="px-4 py-3 flex justify-center">
                       <button
                         onClick={() => handleFavoriteToggle(review)}
                         disabled={loadingFavorites}
@@ -182,17 +194,26 @@ const AllReviews = () => {
                   <td className="px-4 py-3 font-semibold text-gray-800">
                     {review.foodName}
                   </td>
+
                   <td className="px-4 py-3 text-gray-700">
                     {review.restaurantName}
                   </td>
-                  <td className="px-4 py-3 text-gray-700">{review.location}</td>
+
+                  <td className="px-4 py-3 text-gray-700">
+                    {review.location}
+                  </td>
+
                   <td className="px-4 py-3 text-yellow-500 font-bold">
                     {"⭐".repeat(review.rating)}{" "}
                     <span className="text-gray-600 font-normal">
                       ({review.rating}/5)
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-gray-700">{review.email}</td>
+
+                  <td className="px-4 py-3 text-gray-700">
+                    {review.email}
+                  </td>
+
                   <td className="px-4 py-3 text-gray-500 text-sm">
                     {new Date(review.createdAt).toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -200,6 +221,7 @@ const AllReviews = () => {
                       year: "numeric",
                     })}
                   </td>
+
                   <td className="px-4 py-3 text-gray-700 max-w-xs truncate">
                     {review.reviewText}
                   </td>

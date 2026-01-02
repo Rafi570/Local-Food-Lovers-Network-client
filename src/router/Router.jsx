@@ -1,19 +1,22 @@
 import { createBrowserRouter } from "react-router";
 import Root from "../pages/Root/Root";
 import Home from "../pages/Home/Home";
-import AllReviews from "../components/AllReviews/AllReviews";
-import Contact from "../components/Contact/Contact";
+
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Loading from "../components/Loading/Loading";
 import PrivateRoute from "./PrivateRoute.jsx/PrivateRoute";
 import DetailsReview from "../components/DetailsReview/DetailsReview";
-import AddReview from "../pages/AddReview/AddReview";
+// import AddReview from "../pages/AddReview/AddReview";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Myreview from "../pages/Myreview/Myreview";
 import EditReview from "../components/EditReview/EditReview";
 import MyFavorites from "../pages/MyFavorites/MyFavorites";
 import AboutUs from "../components/AboutUs/AboutUs";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import AddReview from "../pages/Dashboard/AddReview/AddReview";
+import AllReviews from "../pages/Dashboard/AllReviews/AllReviews";
+
 
 export const router = createBrowserRouter([
   {
@@ -31,20 +34,20 @@ export const router = createBrowserRouter([
         // },
         // hydrateFallbackElement: <Loading></Loading>
       },
+      // {
+      //   path: "/all-reviews",
+      //   Component: AllReviews,
+      //   loader: async () => {
+      //     const res = await fetch(
+      //       "https://server-site-assingment-10.vercel.app/review"
+      //     );
+      //     return res.json();
+      //   },
+      //   hydrateFallbackElement: <Loading></Loading>,
+      // },
       {
-        path: "/all-reviews",
-        Component: AllReviews,
-        loader: async () => {
-          const res = await fetch(
-            "https://server-site-assingment-10.vercel.app/review"
-          );
-          return res.json();
-        },
-        hydrateFallbackElement: <Loading></Loading>,
-      },
-      {
-path:"/about-us",
-Component:AboutUs
+        path: "/about-us",
+        Component: AboutUs,
       },
       {
         path: "/details-review/:id",
@@ -71,36 +74,57 @@ Component:AboutUs
       },
       {
         path: "/add-review",
-        element:(
+        element: (
           <PrivateRoute>
             <AddReview></AddReview>
           </PrivateRoute>
-        )
+        ),
       },
       {
-        path :'/edit-review/:id',
-        element:(
+        path: "/edit-review/:id",
+        element: (
           <PrivateRoute>
             <EditReview></EditReview>
           </PrivateRoute>
-        )
+        ),
       },
       {
-        path :'/my-review',
-        element:(
+        path: "/my-review",
+        element: (
           <PrivateRoute>
             <Myreview></Myreview>
           </PrivateRoute>
-        )
+        ),
       },
       {
-        path :'/my-favorites',
-        element:(
+        path: "/my-favorites",
+        element: (
           <PrivateRoute>
             <MyFavorites></MyFavorites>
           </PrivateRoute>
-        )
-      }
+        ),
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "all-reviews",
+        Component: AllReviews,
+        loader: async () => {
+          const res = await fetch(
+            "https://server-site-assingment-10.vercel.app/review"
+          );
+          return res.json();
+        },
+        hydrateFallbackElement: <Loading></Loading>,
+      },
     ],
   },
 ]);

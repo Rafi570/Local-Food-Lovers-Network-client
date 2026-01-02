@@ -150,6 +150,14 @@ const Navbar = () => {
                   {/* Protected Add Review Link */}
                   <li>
                     <NavLink
+                      to="/dashboard"
+                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
+                    >
+                      <FaCog /> Dashboard
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
                       to="/add-review"
                       className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
                     >
