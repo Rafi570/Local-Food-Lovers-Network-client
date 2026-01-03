@@ -9,6 +9,7 @@ import {
   FaCommentDots,
   FaQuestionCircle,
   FaClipboardList,
+  FaPizzaSlice,
 } from "react-icons/fa";
 import logo from "../../assets/pngtree-i-m-just-here-for-the-food-funny-fast-food-lover-png-image_2310810.jpg";
 import useAuth from "../../Hooks/useAuth";
@@ -59,7 +60,7 @@ const Navbar = () => {
         </NavLink>
 
         <NavLink to="/all-foods" className={navClass}>
-          <FaStar /> All Foods
+          <FaPizzaSlice /> All Foods
         </NavLink>
 
         {!user && (
@@ -105,7 +106,7 @@ const Navbar = () => {
                       <FaClipboardList /> All Reviews
                     </NavLink>
                   </li>
-                                    <li>
+                  <li>
                     <NavLink
                       to="/support"
                       className="flex items-center gap-2 px-4 py-2 hover:bg-[#FFF3E0]"
@@ -114,10 +115,9 @@ const Navbar = () => {
                     </NavLink>
                   </li>
 
-
                   <li>
                     <NavLink
-                      to="/dashboard"
+                      to="/dashboard/overview"
                       className="flex items-center gap-2 px-4 py-2 hover:bg-[#FFF3E0]"
                     >
                       <FaUser /> Dashboard

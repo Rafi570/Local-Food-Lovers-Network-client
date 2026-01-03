@@ -20,6 +20,8 @@ import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
 import AllReviews from "../pages/AllReviews/AllReviews";
 import HelpCenter from "../components/HelpCenter/HelpCenter";
 import AllCard from "../pages/AllCard/AllCard";
+import Overview from "../pages/Dashboard/Overview/Overview";
+import Profile from "../pages/Dashboard/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -130,6 +132,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: 'overview',
+        Component: Overview
+      },
+            {
+        path: 'profile',
+        Component: Profile
+      }
     ],
   },
 ]);

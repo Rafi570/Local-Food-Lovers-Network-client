@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  NavLink,
-  Outlet,
-  useNavigation,
-  useLocation,
-} from "react-router";
+import { NavLink, Outlet, useNavigation, useLocation } from "react-router";
 import {
   FaTachometerAlt,
   FaListAlt,
@@ -22,7 +17,7 @@ const DashboardLayout = () => {
   // 🔹 Dashboard Routes Config (icon + title)
   const dashboardRoutes = [
     {
-      path: "/dashboard",
+      path: "/dashboard/overview",
       title: "Overview",
       icon: <FaTachometerAlt />,
     },
@@ -41,6 +36,11 @@ const DashboardLayout = () => {
       title: "My Favorites",
       icon: <FaHeart />,
     },
+    {
+      path:"/dashboard/profile",
+      title: "Profile",
+      icon:<FaUserCircle></FaUserCircle>
+    }
   ];
 
   // 🔹 Show loading on every route change
@@ -77,17 +77,13 @@ const DashboardLayout = () => {
               ☰
             </label>
 
-            <h1 className="text-xl font-bold text-orange-600">
-              {getTitle()}
-            </h1>
+            <h1 className="text-xl font-bold text-orange-600">{getTitle()}</h1>
           </div>
 
           {/* 🔹 User Info */}
           <div className="flex items-center gap-2 text-gray-700">
-            <FaUserCircle className="text-xl" />
-            <span className="font-medium">
-              {user?.displayName || "User"}
-            </span>
+            {/* <FaUserCircle className="text-xl" /> */}
+            <span className="font-medium">{user?.displayName || "User"}</span>
           </div>
         </nav>
 
