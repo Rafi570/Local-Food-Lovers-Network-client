@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-// import { AuthContext } from "../../contexts/AuthContext";
-// import useAxios from "../../Hooks/useAxios";
 import { Link } from "react-router";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -21,14 +19,18 @@ const Myreview = () => {
   }, [user, axiosInstance]);
 
   const handleDelete = (id) => {
+    const isDark = document.documentElement.classList.contains('dark');
+    
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#f97316",
+      cancelButtonColor: "#ef4444",
       confirmButtonText: "Yes, delete it!",
+      background: isDark ? '#111827' : '#fff',
+      color: isDark ? '#fff' : '#000',
     }).then((result) => {
       if (result.isConfirmed) {
         axiosInstance.delete(`/review/${id}`).then((res) => {
@@ -38,6 +40,8 @@ const Myreview = () => {
               title: "Deleted!",
               text: "Your review has been deleted.",
               icon: "success",
+              background: isDark ? '#111827' : '#fff',
+              color: isDark ? '#fff' : '#000',
             });
           }
         });
@@ -46,100 +50,55 @@ const Myreview = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
-      {/* Title/Header */}
+    <div className="max-w-5xl mx-auto px-4">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-orange-600 mb-2">
+        <h1 className="text-3xl md:text-5xl font-extrabold text-orange-600 dark:text-orange-500 mb-2">
           My Reviews
         </h1>
-        <p className="text-gray-600 text-lg md:text-xl">
+        <p className="text-gray-600 dark:text-gray-400 text-lg">
           All reviews you have added
         </p>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto shadow-lg rounded-xl bg-white">
-        <table className="min-w-full divide-y divide-gray-200">
-          {/* Head */}
-          <thead className="bg-gradient-to-r from-orange-200 to-orange-100">
+      <div className="overflow-x-auto shadow-xl rounded-2xl bg-white dark:bg-gray-900 border dark:border-gray-800 transition-colors">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+          <thead className="bg-orange-50 dark:bg-orange-900/10">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Food
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Food Name
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Restaurant
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Date
-              </th>
-              <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                Actions
-              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-orange-700 dark:text-orange-400 uppercase tracking-wider">Food</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-orange-700 dark:text-orange-400 uppercase tracking-wider">Name</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-orange-700 dark:text-orange-400 uppercase tracking-wider">Restaurant</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-orange-700 dark:text-orange-400 uppercase tracking-wider">Date</th>
+              <th className="px-6 py-4 text-center text-xs font-bold text-orange-700 dark:text-orange-400 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
 
-          {/* Body */}
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
             {reviews.length > 0 ? (
               reviews.map((rev) => (
-                <tr
-                  key={rev._id}
-                  className="hover:bg-orange-50 transition-colors duration-300"
-                >
-                  {/* Food Image */}
-                  <td className="px-4 py-3">
-                    <img
-                      src={rev.foodImage}
-                      alt={rev.foodName}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
+                <tr key={rev._id} className="hover:bg-orange-50/50 dark:hover:bg-gray-800/50 transition-colors">
+                  <td className="px-6 py-4">
+                    <img src={rev.foodImage} alt={rev.foodName} className="w-16 h-16 object-cover rounded-xl border dark:border-gray-700 shadow-sm" />
                   </td>
-
-                  {/* Food Name */}
-                  <td className="px-4 py-3 font-semibold text-gray-800">
-                    {rev.foodName}
+                  <td className="px-6 py-4 font-bold text-gray-800 dark:text-gray-100">{rev.foodName}</td>
+                  <td className="px-6 py-4 text-gray-700 dark:text-gray-300">{rev.restaurantName}</td>
+                  <td className="px-6 py-4 text-gray-500 dark:text-gray-500 text-sm">
+                    {new Date(rev.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
                   </td>
-
-                  {/* Restaurant Name */}
-                  <td className="px-4 py-3 text-gray-700">
-                    {rev.restaurantName}
-                  </td>
-
-                  {/* Date */}
-                  <td className="px-4 py-3 text-gray-500 text-sm">
-                    {new Date(rev.createdAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-4 py-3 text-center flex justify-center gap-4">
-                    <Link
-                      to={`/dashboard/edit-review/${rev._id}`}
-                      className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800"
-                    >
-                      <FaEdit /> Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(rev._id)}
-                      className="inline-flex items-center gap-1 text-red-600 hover:text-red-800"
-                    >
-                      <FaTrashAlt /> Delete
-                    </button>
+                  <td className="px-6 py-4">
+                    <div className="flex justify-center gap-4">
+                      <Link to={`/dashboard/edit-review/${rev._id}`} className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                        <FaEdit size={18} />
+                      </Link>
+                      <button onClick={() => handleDelete(rev._id)} className="p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm">
+                        <FaTrashAlt size={18} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="5"
-                  className="text-center py-10 text-gray-500 italic font-semibold"
-                >
+                <td colSpan="5" className="text-center py-20 text-gray-500 dark:text-gray-400 font-medium italic">
                   No reviews found 😔
                 </td>
               </tr>

@@ -53,7 +53,6 @@ const Overview = () => {
   const avgRating =
     foods.reduce((acc, food) => acc + food.rating, 0) / (totalFoods || 1);
 
-  // Chart Data Logic
   const ratingsCount = [0, 0, 0, 0, 0];
   foods.forEach((food) => {
     const index = Math.floor(food.rating) - 1;
@@ -102,54 +101,47 @@ const Overview = () => {
     },
     scales: {
       y: {
-        grid: { borderDash: [5, 5], color: "#e5e7eb" },
-        ticks: { stepSize: 1 },
+        grid: { borderDash: [5, 5], color: "rgba(229, 231, 235, 0.1)" },
+        ticks: { 
+            stepSize: 1,
+            color: "#94a3b8" 
+        },
       },
-      x: { grid: { display: false } },
+      x: { 
+        grid: { display: false },
+        ticks: { color: "#94a3b8" }
+      },
     },
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-white dark:bg-gray-950 relative overflow-hidden font-sans transition-colors duration-300">
       {/* Background Decorative Blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-100 rounded-full blur-[120px] opacity-50" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-100 rounded-full blur-[100px] opacity-50" />
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-100 dark:bg-orange-900/10 rounded-full blur-[120px] opacity-50" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-100 dark:bg-blue-900/10 rounded-full blur-[100px] opacity-50" />
 
-      <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               Foodie<span className="text-[#FF6D00]">Insight</span>
             </h1>
-            <p className="text-slate-500 mt-1 font-medium">
+            <p className="text-slate-500 dark:text-gray-400 mt-1 font-medium">
               Detailed performance overview of your menu
             </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex gap-3"
-          >
-            {/* <button className="px-5 py-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all">
-              Export PDF
-            </button> */}
-            {/* <button className="px-5 py-2.5 bg-[#FF6D00] text-white rounded-xl font-semibold shadow-lg shadow-orange-200 hover:bg-[#E65100] transition-all">
-              Add New Food
-            </button> */}
           </motion.div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           <StatCard
             label="Active Menu"
             value={totalFoods}
-            icon={<Utensils size={24} />}
+            icon={<Utensils size={22} />}
             color="bg-orange-500"
             trend="+12% from last month"
           />
@@ -157,14 +149,14 @@ const Overview = () => {
             label="Average Rating"
             value={avgRating}
             isDecimal
-            icon={<Star size={24} />}
+            icon={<Star size={22} />}
             color="bg-amber-400"
             trend="Very Good"
           />
           <StatCard
             label="Total Reviews"
-            value={totalFoods * 8} // Dummy math
-            icon={<MessageSquare size={24} />}
+            value={totalFoods * 8}
+            icon={<MessageSquare size={22} />}
             color="bg-blue-500"
             trend="Updated Daily"
           />
@@ -172,7 +164,7 @@ const Overview = () => {
             label="Top Performance"
             value={94}
             suffix="%"
-            icon={<TrendingUp size={24} />}
+            icon={<TrendingUp size={22} />}
             color="bg-emerald-500"
             trend="Global Rank"
           />
@@ -184,18 +176,18 @@ const Overview = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:col-span-2 bg-white/80 backdrop-blur-md p-8 rounded-[32px] border border-white shadow-2xl shadow-slate-200/50"
+            className="lg:col-span-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-6 md:p-8 rounded-[32px] border border-white dark:border-gray-800 shadow-2xl shadow-slate-200/50 dark:shadow-none"
           >
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-xl font-bold text-slate-800">
+                <h3 className="text-xl font-bold text-slate-800 dark:text-white">
                   Ratings Analytics
                 </h3>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-gray-400">
                   Distribution of customer feedback
                 </p>
               </div>
-              <Layers className="text-slate-300" />
+              <Layers className="text-slate-300 dark:text-gray-600" />
             </div>
             <div className="h-[350px]">
               <Bar data={data} options={options} />
@@ -207,12 +199,12 @@ const Overview = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-[#1e293b] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden"
+            className="bg-[#1e293b] dark:bg-gray-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden border dark:border-gray-800"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Award size={120} />
             </div>
-            <h3 className="text-xl font-bold mb-6 relative z-10">
+            <h3 className="text-xl font-bold mb-6 relative z-10 text-white">
               Performance Highlights
             </h3>
 
@@ -227,10 +219,6 @@ const Overview = () => {
                 desc="Great service and fast delivery!"
               />
             </div>
-
-            {/* <button className="w-full mt-12 py-4 bg-orange-500 hover:bg-orange-600 rounded-2xl font-bold transition-all shadow-lg shadow-orange-900/20">
-              View Detailed Reports
-            </button> */}
           </motion.div>
         </div>
       </div>
@@ -250,7 +238,7 @@ const StatCard = ({
 }) => (
   <motion.div
     whileHover={{ y: -5 }}
-    className="bg-white p-6 rounded-[28px] shadow-sm border border-slate-100 flex flex-col justify-between h-full"
+    className="bg-white dark:bg-gray-900 p-6 rounded-[28px] shadow-sm border border-slate-100 dark:border-gray-800 flex flex-col justify-between h-full transition-colors"
   >
     <div className="flex justify-between items-start mb-4">
       <div
@@ -258,19 +246,19 @@ const StatCard = ({
       >
         {icon}
       </div>
-      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50 px-2 py-1 rounded-md">
+      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-gray-500 bg-slate-50 dark:bg-gray-800 px-2 py-1 rounded-md">
         Live
       </span>
     </div>
     <div>
-      <h2 className="text-3xl font-black text-slate-800">
+      <h2 className="text-3xl font-black text-slate-800 dark:text-white">
         <CountUp end={value} decimals={isDecimal ? 1 : 0} duration={2} />
         {suffix}
       </h2>
-      <p className="text-slate-500 text-sm font-medium mt-1">{label}</p>
+      <p className="text-slate-500 dark:text-gray-400 text-sm font-medium mt-1">{label}</p>
     </div>
-    <div className="mt-4 pt-4 border-t border-slate-50">
-      <p className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+    <div className="mt-4 pt-4 border-t border-slate-50 dark:border-gray-800">
+      <p className="text-xs font-semibold text-slate-400 dark:text-gray-500 flex items-center gap-1">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 block"></span>
         {trend}
       </p>
@@ -283,7 +271,7 @@ const HighlightItem = ({ title, desc }) => (
     <p className="text-orange-400 text-xs font-bold uppercase tracking-widest mb-1">
       {title}
     </p>
-    <p className="text-slate-200 font-medium group-hover:text-white transition-colors">
+    <p className="text-slate-200 dark:text-gray-300 font-medium group-hover:text-white transition-colors">
       {desc}
     </p>
   </div>

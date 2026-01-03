@@ -35,9 +35,9 @@ const DetailsReview = () => {
       foodImage: food.photo,
       location: food.location,
       restaurantName: food.restaurantName,
-      rating,
+      rating: Number(rating),
       reviewText,
-      email: user.email,
+      email: user?.email,
       createdAt: new Date().toISOString(),
     };
 
@@ -48,9 +48,6 @@ const DetailsReview = () => {
         setReviewerName("");
         setRating(5);
         setReviewText("");
-
-        // Refresh food data if needed
-        axiosInstance.get(`/foods/${id}`).then((res) => setFood(res.data));
       })
       .catch((err) => {
         console.error(err);
@@ -59,78 +56,128 @@ const DetailsReview = () => {
   };
 
   return (
-    <div className="pt-20 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32 px-4">
-      <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg space-y-6">
-        {/* Food Card */}
-        <div className="flex flex-col md:flex-row gap-6">
-          <img
-            src={food.photo}
-            alt={food.foodName}
-            className="w-full md:w-1/2 h-64 md:h-auto object-cover rounded-2xl shadow-md"
-          />
-          <div className="flex-1 flex flex-col justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">{food.foodName}</h1>
-              <p className="text-gray-600 mb-1">{food.restaurantName}</p>
-              <p className="text-gray-500 mb-2">{food.location}</p>
-              <p className="text-gray-700 mb-2">{food.description}</p>
-              <p className="text-gray-800 font-semibold">Price: {food.price}</p>
-              <p className="text-gray-800 font-semibold">
-                Rating: {food.rating}
-              </p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-10 transition-colors duration-300">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 p-6 space-y-8 overflow-hidden">
+          
+          {/* Food Details Section */}
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="w-full md:w-1/2">
+              <img
+                src={food.photo}
+                alt={food.foodName}
+                className="w-full h-64 md:h-full max-h-[400px] object-cover rounded-xl shadow-md border dark:border-gray-700"
+              />
             </div>
-            {food.ingredients && (
-              <div className="mt-4">
-                <h2 className="text-lg font-semibold mb-1">Ingredients:</h2>
-                <ul className="list-disc list-inside text-gray-600">
-                  {food.ingredients.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
+            
+            <div className="flex-1 flex flex-col">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+                {food.foodName}
+              </h1>
+              
+              <div className="space-y-1 mb-4">
+                <p className="text-[#FF9800] font-medium text-lg">{food.restaurantName}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center">
+                   📍 {food.location}
+                </p>
               </div>
-            )}
-          </div>
-        </div>
 
-        {/* Review Form */}
-        {user && (
-          <div className="mt-6">
-            <h2 className="text-xl font-bold mb-4">Add Your Review</h2>
-            <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-                value={reviewerName}
-                onChange={(e) => setReviewerName(e.target.value)}
-                required
-              />
-              <input
-                type="number"
-                min="1"
-                max="5"
-                placeholder="Rating (1-5)"
-                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-                required
-              />
-              <textarea
-                placeholder="Write your review"
-                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                required
-              />
-              <button
-                type="submit"
-                className="bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold py-2.5 rounded-full transition duration-300"
-              >
-                Submit Review
-              </button>
-            </form>
+              <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg mb-4">
+                <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed italic">
+                  "{food.description}"
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="p-3 bg-orange-50 dark:bg-orange-900/10 rounded-lg">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-bold">Price</p>
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">{food.price}</p>
+                </div>
+                <div className="p-3 bg-orange-50 dark:bg-orange-900/10 rounded-lg">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-bold">Rating</p>
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">⭐ {food.rating}</p>
+                </div>
+              </div>
+
+              {food.ingredients && (
+                <div>
+                  <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-2 uppercase tracking-wide">Ingredients:</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {food.ingredients.map((item, index) => (
+                      <span key={index} className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-3 py-1 rounded-full text-xs">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        )}
+
+          <hr className="border-gray-100 dark:border-gray-800" />
+
+          {/* Review Form Section */}
+          {user ? (
+            <div className="animate-in fade-in duration-700">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                ✍️ Add Your Review
+              </h2>
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
+                <div className="space-y-4 md:col-span-1">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your name"
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF9800] text-gray-900 dark:text-white transition-all"
+                      value={reviewerName}
+                      onChange={(e) => setReviewerName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Rating (1-5)</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="5"
+                      placeholder="5"
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF9800] text-gray-900 dark:text-white transition-all"
+                      value={rating}
+                      onChange={(e) => setRating(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="md:col-span-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Comments</label>
+                  <textarea
+                    placeholder="Tell others about your experience..."
+                    rows="5"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF9800] text-gray-900 dark:text-white transition-all"
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="md:col-span-2 pt-2">
+                  <button
+                    type="submit"
+                    className="w-full bg-[#FF9800] hover:bg-[#e68900] text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg shadow-orange-500/20 transform active:scale-[0.98]"
+                  >
+                    Post Review Now
+                  </button>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <div className="text-center py-6 bg-gray-50 dark:bg-gray-800/30 rounded-xl">
+               <p className="text-gray-600 dark:text-gray-400">Please login to share your experience.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

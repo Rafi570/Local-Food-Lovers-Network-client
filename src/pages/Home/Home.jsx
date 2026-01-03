@@ -5,12 +5,10 @@ import Foods from "../Foods/Foods";
 // import TopLocalFoodSpots from '../../components/TopLocalFoodSpots/TopLocalFoodSpots';
 import LocalFlavorHighlights from "../../components/LocalFlavorHighlights/LocalFlavorHighlights";
 import Add2 from "../../components/Add2/Add2";
-// import AddReview from '../AddReview/AddReview';
-// import Loading from '../../components/Loading/Loading';
+
 
 const Home = () => {
-  // const data =useLoaderData()
-  // console.log(data)
+
   return (
     <div>
       <Banner></Banner>
