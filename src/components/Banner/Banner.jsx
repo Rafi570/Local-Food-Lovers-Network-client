@@ -1,6 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -34,42 +35,53 @@ const Banner = () => {
     <section className="w-full mt-16 overflow-hidden">
       <Swiper
         spaceBetween={30}
-        centeredSlides={true}
+        centeredSlides
         autoplay={{
           delay: 4000,
           disableOnInteraction: false,
         }}
-        pagination={{
-          clickable: true,
+        pagination={{ clickable: true }}
+        navigation
+        breakpoints={{
+          0: { navigation: false }, // mobile
+          768: { navigation: true }, // tablet & up
         }}
-        navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
         className="w-full"
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div
-              className="relative w-full flex justify-center items-center rounded-xl overflow-hidden"
+              className="
+                relative w-full
+                h-[42vh]
+                sm:h-[50vh]
+                md:h-[60vh]
+                lg:h-[70vh]
+                max-h-[650px]
+                flex justify-center items-center
+                rounded-xl overflow-hidden
+              "
               style={{
-                paddingTop: "56.25%", // 16:9 aspect ratio (responsive)
                 backgroundImage: `url(${slide.img})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
               }}
             >
               {/* Overlay */}
               <div className="absolute inset-0 bg-black/50"></div>
 
               {/* Text Content */}
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4 sm:p-6 md:p-8">
+              <div className="relative z-10 flex flex-col justify-center items-center text-center px-4">
                 <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 text-[#FF9800] leading-tight">
                   {slide.title}
                 </h2>
+
                 <p className="text-sm sm:text-base md:text-lg mb-5 text-white max-w-lg">
                   {slide.desc}
                 </p>
-                <button className="bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-full transition duration-300 text-xs sm:text-sm md:text-base">
+
+                <button className="bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full transition duration-300">
                   {slide.button}
                 </button>
               </div>

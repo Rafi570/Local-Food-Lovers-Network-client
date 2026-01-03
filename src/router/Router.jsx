@@ -18,6 +18,7 @@ import Myreview from "../pages/Dashboard/Myreview/Myreview";
 import EditReview from "../pages/Dashboard/EditReview/EditReview";
 import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
 import AllReviews from "../pages/AllReviews/AllReviews";
+import HelpCenter from "../components/HelpCenter/HelpCenter";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,11 @@ export const router = createBrowserRouter([
       {
         path: "/about-us",
         Component: AboutUs,
+      },
+      {
+        path:"/support",
+        // Component: HelpCenter
+        element: <PrivateRoute><HelpCenter></HelpCenter></PrivateRoute>
       },
       {
         path: "/all-reviews",
