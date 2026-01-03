@@ -6,7 +6,7 @@ import useAxios from "../../Hooks/useAxios";
 
 const Foods = () => {
   const axiosInstance = useAxios();
-  const navigate = useNavigate(); // ✅ Hook for navigation
+  const navigate = useNavigate(); // 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 

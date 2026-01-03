@@ -6,6 +6,7 @@ const AllReviews = () => {
   const [search, setSearch] = useState("");
   const [reviews, setReviews] = useState([]);
   const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [sortOption, setSortOption] = useState("dateDesc"); // 🔹 Sorting option
 
   const { user } = useAuth();
   const axiosInstance = useAxios();
@@ -17,8 +18,43 @@ const AllReviews = () => {
   const fetchReviews = async (value = "") => {
     try {
       setReviewsLoading(true);
-      const { data } = await axiosInstance.get(`/review?search=${value}`);
-      setReviews(data);
+      let url = `/review?search=${value}`;
+      const { data } = await axiosInstance.get(url);
+
+      // 🔹 Apply sorting
+      let sortedData = [...data];
+      switch (sortOption) {
+        case "dateAsc":
+          sortedData.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          );
+          break;
+        case "dateDesc":
+          sortedData.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          break;
+        case "ratingAsc":
+          sortedData.sort((a, b) => a.rating - b.rating);
+          break;
+        case "ratingDesc":
+          sortedData.sort((a, b) => b.rating - a.rating);
+          break;
+        case "foodNameAsc":
+          sortedData.sort((a, b) =>
+            a.foodName.localeCompare(b.foodName)
+          );
+          break;
+        case "foodNameDesc":
+          sortedData.sort((a, b) =>
+            b.foodName.localeCompare(a.foodName)
+          );
+          break;
+        default:
+          break;
+      }
+
+      setReviews(sortedData);
     } catch (error) {
       console.error("Error fetching reviews:", error);
       setReviews([]);
@@ -29,7 +65,7 @@ const AllReviews = () => {
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [sortOption]);
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -98,19 +134,33 @@ const AllReviews = () => {
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-[#FF6D00] leading-tight">
           🌟 All Food Reviews
         </h1>
-
         <p className="text-gray-700 text-sm sm:text-base md:text-xl mt-2 mb-4">
           Check out what food lovers are saying!
         </p>
 
-        {/* Search */}
-        <input
-          type="text"
-          value={search}
-          onChange={handleSearch}
-          placeholder="Search by food name..."
-          className="w-full max-w-md mx-auto block border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF6D00]"
-        />
+        {/* Search & Sort */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search by food name..."
+            className="w-full max-w-md border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF6D00]"
+          />
+
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="w-full max-w-xs border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF6D00]"
+          >
+            <option value="dateDesc">Newest First</option>
+            <option value="dateAsc">Oldest First</option>
+            <option value="ratingDesc">Highest Rating</option>
+            <option value="ratingAsc">Lowest Rating</option>
+            <option value="foodNameAsc">Food Name A-Z</option>
+            <option value="foodNameDesc">Food Name Z-A</option>
+          </select>
+        </div>
       </div>
 
       {/* 🔸 Table / Loading / Empty */}

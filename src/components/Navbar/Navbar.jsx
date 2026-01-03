@@ -58,8 +58,8 @@ const Navbar = () => {
           <FaHome /> Home
         </NavLink>
 
-        <NavLink to="/about-us" className={navClass}>
-          <FaStar /> About
+        <NavLink to="/all-foods" className={navClass}>
+          <FaStar /> All Foods
         </NavLink>
 
         {!user && (

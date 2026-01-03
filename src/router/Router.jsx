@@ -19,6 +19,7 @@ import EditReview from "../pages/Dashboard/EditReview/EditReview";
 import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
 import AllReviews from "../pages/AllReviews/AllReviews";
 import HelpCenter from "../components/HelpCenter/HelpCenter";
+import AllCard from "../pages/AllCard/AllCard";
 
 export const router = createBrowserRouter([
   {
@@ -48,8 +49,8 @@ export const router = createBrowserRouter([
       //   hydrateFallbackElement: <Loading></Loading>,
       // },
       {
-        path: "/about-us",
-        Component: AboutUs,
+        path: "/all-foods",
+        Component: AllCard,
       },
       {
         path:"/support",
@@ -58,7 +59,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "/all-reviews",
-        Component: AllReviews,
+        // Component: AllReviews,
+        element: <PrivateRoute><AllReviews></AllReviews></PrivateRoute>,
         loader: async () => {
           const res = await fetch(
             "https://server-site-assingment-10.vercel.app/review"
