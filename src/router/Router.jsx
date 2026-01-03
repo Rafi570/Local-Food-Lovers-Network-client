@@ -10,14 +10,14 @@ import DetailsReview from "../components/DetailsReview/DetailsReview";
 
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
-
-import MyFavorites from "../pages/MyFavorites/MyFavorites";
 import AboutUs from "../components/AboutUs/AboutUs";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import AddReview from "../pages/Dashboard/AddReview/AddReview";
-import AllReviews from "../pages/Dashboard/AllReviews/AllReviews";
+
 import Myreview from "../pages/Dashboard/Myreview/Myreview";
 import EditReview from "../pages/Dashboard/EditReview/EditReview";
+import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
+import AllReviews from "../pages/AllReviews/AllReviews";
 
 export const router = createBrowserRouter([
   {
@@ -51,17 +51,24 @@ export const router = createBrowserRouter([
         Component: AboutUs,
       },
       {
+        path: "/all-reviews",
+        Component: AllReviews,
+        loader: async () => {
+          const res = await fetch(
+            "https://server-site-assingment-10.vercel.app/review"
+          );
+          return res.json();
+        },
+        hydrateFallbackElement: <Loading></Loading>,
+      },
+      {
         path: "/details-review/:id",
         loader: ({ params }) =>
           fetch(
             `https://server-site-assingment-10.vercel.app/foods/${params.id}`
           ).then((res) => res.json()),
         hydrateFallbackElement: <Loading></Loading>,
-        element: (
-          <PrivateRoute>
-            <DetailsReview></DetailsReview>
-          </PrivateRoute>
-        ),
+        element: <DetailsReview></DetailsReview>,
         // Component: DetailsReview,
       },
 
@@ -73,15 +80,6 @@ export const router = createBrowserRouter([
         path: "/auth-register",
         Component: Register,
       },
-
-      {
-        path: "/my-favorites",
-        element: (
-          <PrivateRoute>
-            <MyFavorites></MyFavorites>
-          </PrivateRoute>
-        ),
-      },
     ],
   },
   {
@@ -92,17 +90,6 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      {
-        path: "all-reviews",
-        Component: AllReviews,
-        loader: async () => {
-          const res = await fetch(
-            "https://server-site-assingment-10.vercel.app/review"
-          );
-          return res.json();
-        },
-        hydrateFallbackElement: <Loading></Loading>,
-      },
       {
         path: "add-review",
         element: (
@@ -124,6 +111,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <EditReview></EditReview>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-favorites",
+        element: (
+          <PrivateRoute>
+            <MyFavorites></MyFavorites>
           </PrivateRoute>
         ),
       },

@@ -150,6 +150,14 @@ const Navbar = () => {
                   {/* Protected Add Review Link */}
                   <li>
                     <NavLink
+                      to="/all-reviews"
+                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
+                    >
+                      <FaCog /> All Reviews
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
                       to="/dashboard"
                       className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
                     >
@@ -157,18 +165,7 @@ const Navbar = () => {
                     </NavLink>
                   </li>
 
-
-
                   {/* Profile */}
-                  <li>
-                    <NavLink
-                      to="/my-favorites"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-[#FFF3E0] hover:text-[#FF9800] transition-colors font-semibold"
-                    >
-                      <FaHeart /> My Favorites
-                    </NavLink>
-                  </li>
-
 
                   {/* Logout */}
                   <li>

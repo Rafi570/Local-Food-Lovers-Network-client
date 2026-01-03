@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../../Hooks/useAuth";
-import useAxios from "../../Hooks/useAxios";
+import useAuth from "../../../Hooks/useAuth";
+import useAxios from "../../../Hooks/useAxios";
+
 
 const MyFavorites = () => {
   const { user } = useAuth();
@@ -30,7 +31,7 @@ const MyFavorites = () => {
   }, [user?.email]);
 
   return (
-    <div className="pt-20 px-4 sm:px-6 lg:px-8 min-h-screen">
+    <div className="max-w-5xl mx-auto">
       {/* Heading */}
       <div className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-extrabold text-[#FF6D00] mb-3">

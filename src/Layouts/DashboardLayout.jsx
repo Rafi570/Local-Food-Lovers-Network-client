@@ -1,6 +1,16 @@
 import React from "react";
-import { NavLink, Outlet, useNavigation, useLocation } from "react-router";
-import { FaTachometerAlt, FaListAlt, FaUserCircle } from "react-icons/fa";
+import {
+  NavLink,
+  Outlet,
+  useNavigation,
+  useLocation,
+} from "react-router";
+import {
+  FaTachometerAlt,
+  FaListAlt,
+  FaUserCircle,
+  FaHeart,
+} from "react-icons/fa";
 import Loading from "../components/Loading/Loading";
 import useAuth from "../Hooks/useAuth";
 
@@ -9,15 +19,41 @@ const DashboardLayout = () => {
   const navigation = useNavigation();
   const location = useLocation();
 
+  // 🔹 Dashboard Routes Config (icon + title)
+  const dashboardRoutes = [
+    {
+      path: "/dashboard",
+      title: "Overview",
+      icon: <FaTachometerAlt />,
+    },
+    {
+      path: "/dashboard/add-review",
+      title: "Add Review",
+      icon: <FaListAlt />,
+    },
+    {
+      path: "/dashboard/my-review",
+      title: "My Review",
+      icon: <FaUserCircle />,
+    },
+    {
+      path: "/dashboard/my-favorites",
+      title: "My Favorites",
+      icon: <FaHeart />,
+    },
+  ];
+
+  // 🔹 Show loading on every route change
   if (navigation.state === "loading") {
     return <Loading />;
   }
 
-  // 🔹 Navbar Title based on route
+  // 🔹 Dynamic Navbar Title
   const getTitle = () => {
-    if (location.pathname === "/dashboard") return "Overview";
-    if (location.pathname.includes("all-reviews")) return "All Reviews";
-    return "Dashboard";
+    const currentRoute = dashboardRoutes.find(
+      (route) => route.path === location.pathname
+    );
+    return currentRoute ? currentRoute.title : "Dashboard";
   };
 
   const activeClass =
@@ -29,9 +65,9 @@ const DashboardLayout = () => {
     <div className="drawer lg:drawer-open min-h-screen bg-gray-100">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
-      {/* Main Content */}
+      {/* ================= Main Content ================= */}
       <div className="drawer-content flex flex-col">
-        {/* Top Navbar */}
+        {/* 🔹 Top Navbar */}
         <nav className="navbar bg-white shadow-sm px-4 flex justify-between">
           <div className="flex items-center gap-3">
             <label
@@ -41,27 +77,32 @@ const DashboardLayout = () => {
               ☰
             </label>
 
-            <h1 className="text-xl font-bold text-orange-600">{getTitle()}</h1>
+            <h1 className="text-xl font-bold text-orange-600">
+              {getTitle()}
+            </h1>
           </div>
 
-          {/* User Info */}
+          {/* 🔹 User Info */}
           <div className="flex items-center gap-2 text-gray-700">
-            <span className="font-medium">{user?.displayName || "User"}</span>
+            <FaUserCircle className="text-xl" />
+            <span className="font-medium">
+              {user?.displayName || "User"}
+            </span>
           </div>
         </nav>
 
-        {/* Page Content */}
+        {/* 🔹 Page Content */}
         <div className="p-6 flex-1">
           <Outlet />
         </div>
       </div>
 
-      {/* Sidebar */}
+      {/* ================= Sidebar ================= */}
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
 
         <aside className="w-72 bg-white min-h-screen border-r shadow-sm">
-          {/* Sidebar Header */}
+          {/* 🔹 Sidebar Header */}
           <NavLink to="/">
             <div className="p-6 border-b">
               <h2 className="text-lg font-bold text-orange-600">
@@ -70,54 +111,22 @@ const DashboardLayout = () => {
             </div>
           </NavLink>
 
-          {/* Menu */}
+          {/* 🔹 Sidebar Menu */}
           <ul className="p-4 space-y-2">
-            <li>
-              <NavLink
-                to="/dashboard"
-                end
-                className={({ isActive }) =>
-                  isActive ? activeClass : normalClass
-                }
-              >
-                <FaTachometerAlt />
-                Overview
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink
-                to="/dashboard/all-reviews"
-                className={({ isActive }) =>
-                  isActive ? activeClass : normalClass
-                }
-              >
-                <FaListAlt />
-                All Reviews
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/add-review"
-                className={({ isActive }) =>
-                  isActive ? activeClass : normalClass
-                }
-              >
-                <FaListAlt />
-                Add Review
-              </NavLink>
-            </li>
-                        <li>
-              <NavLink
-                to="/dashboard/my-review"
-                className={({ isActive }) =>
-                  isActive ? activeClass : normalClass
-                }
-              >
-                <FaListAlt />
-                My Review
-              </NavLink>
-            </li>
+            {dashboardRoutes.map((route) => (
+              <li key={route.path}>
+                <NavLink
+                  to={route.path}
+                  end={route.path === "/dashboard"}
+                  className={({ isActive }) =>
+                    isActive ? activeClass : normalClass
+                  }
+                >
+                  {route.icon}
+                  {route.title}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </aside>
       </div>

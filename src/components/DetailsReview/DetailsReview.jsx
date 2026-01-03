@@ -93,42 +93,44 @@ const DetailsReview = () => {
         </div>
 
         {/* Review Form */}
-        <div className="mt-6">
-          <h2 className="text-xl font-bold mb-4">Add Your Review</h2>
-          <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-              value={reviewerName}
-              onChange={(e) => setReviewerName(e.target.value)}
-              required
-            />
-            <input
-              type="number"
-              min="1"
-              max="5"
-              placeholder="Rating (1-5)"
-              className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-            />
-            <textarea
-              placeholder="Write your review"
-              className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              required
-            />
-            <button
-              type="submit"
-              className="bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold py-2.5 rounded-full transition duration-300"
-            >
-              Submit Review
-            </button>
-          </form>
-        </div>
+        {user && (
+          <div className="mt-6">
+            <h2 className="text-xl font-bold mb-4">Add Your Review</h2>
+            <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+                value={reviewerName}
+                onChange={(e) => setReviewerName(e.target.value)}
+                required
+              />
+              <input
+                type="number"
+                min="1"
+                max="5"
+                placeholder="Rating (1-5)"
+                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                required
+              />
+              <textarea
+                placeholder="Write your review"
+                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="bg-[#FF9800] hover:bg-[#e68900] text-white font-semibold py-2.5 rounded-full transition duration-300"
+              >
+                Submit Review
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
