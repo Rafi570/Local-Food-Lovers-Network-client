@@ -6,8 +6,26 @@ import Swal from "sweetalert2";
 const EditReview = () => {
   const { id } = useParams();
   const [review, setReview] = useState({});
+  const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
   const axiosInstance = useAxios();
   const navigate = useNavigate();
+
+  // Theme detection logic
+  useEffect(() => {
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains("dark") || 
+                     localStorage.getItem("theme") === "dark";
+      setIsDarkMode(isDark);
+    };
+
+    checkTheme(); // Component load holei check korbe
+
+    // Theme change hole auto update hobar jonno observer
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
+  }, []);
 
   // Fetch existing review data
   useEffect(() => {
@@ -27,7 +45,6 @@ const EditReview = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isDark = document.documentElement.classList.contains('dark');
 
     axiosInstance
       .patch(`/review/${id}`, review)
@@ -37,8 +54,9 @@ const EditReview = () => {
             icon: "success",
             title: "Updated!",
             text: "Your review has been updated successfully.",
-            background: isDark ? '#111827' : '#fff',
-            color: isDark ? '#fff' : '#000',
+            // Dynamic theme support
+            background: isDarkMode ? '#1f2937' : '#fff',
+            color: isDarkMode ? '#fff' : '#000',
             confirmButtonColor: "#f97316",
           }).then(() => {
             navigate("/dashboard/my-review");
@@ -50,8 +68,8 @@ const EditReview = () => {
           icon: "error",
           title: "Error",
           text: "Something went wrong. Try again!",
-          background: isDark ? '#111827' : '#fff',
-          color: isDark ? '#fff' : '#000',
+          background: isDarkMode ? '#1f2937' : '#fff',
+          color: isDarkMode ? '#fff' : '#000',
         });
       });
   };

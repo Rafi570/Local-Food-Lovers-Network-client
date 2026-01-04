@@ -8,7 +8,25 @@ import { AuthContext } from "../../../contexts/AuthContext";
 const Myreview = () => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false); // Dark mode state
   const axiosInstance = useAxios();
+
+  // useEffect for Theme Detection
+  useEffect(() => {
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains("dark") || 
+                     localStorage.getItem("theme") === "dark";
+      setIsDarkMode(isDark);
+    };
+
+    checkTheme(); // Initial check
+
+    // MutationObserver use kora hoyeche jate theme switch korle auto detect hoy
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (user?.email) {
@@ -19,8 +37,6 @@ const Myreview = () => {
   }, [user, axiosInstance]);
 
   const handleDelete = (id) => {
-    const isDark = document.documentElement.classList.contains('dark');
-    
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -29,8 +45,9 @@ const Myreview = () => {
       confirmButtonColor: "#f97316",
       cancelButtonColor: "#ef4444",
       confirmButtonText: "Yes, delete it!",
-      background: isDark ? '#111827' : '#fff',
-      color: isDark ? '#fff' : '#000',
+      // Dynamic colors based on state
+      background: isDarkMode ? "#1f2937" : "#fff", 
+      color: isDarkMode ? "#fff" : "#000",
     }).then((result) => {
       if (result.isConfirmed) {
         axiosInstance.delete(`/review/${id}`).then((res) => {
@@ -40,8 +57,8 @@ const Myreview = () => {
               title: "Deleted!",
               text: "Your review has been deleted.",
               icon: "success",
-              background: isDark ? '#111827' : '#fff',
-              color: isDark ? '#fff' : '#000',
+              background: isDarkMode ? "#1f2937" : "#fff",
+              color: isDarkMode ? "#fff" : "#000",
             });
           }
         });
@@ -50,7 +67,7 @@ const Myreview = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="max-w-5xl mx-auto px-4 py-10">
       <div className="mb-8 text-center">
         <h1 className="text-3xl md:text-5xl font-extrabold text-orange-600 dark:text-orange-500 mb-2">
           My Reviews
