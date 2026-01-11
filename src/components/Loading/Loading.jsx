@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Loading = () => {
+    useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", savedTheme);
+    if (savedTheme === "dark") {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, []);
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
       {/* Loader Animation */}

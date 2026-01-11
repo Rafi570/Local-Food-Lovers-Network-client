@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, Outlet, useNavigation, useLocation } from "react-router";
 import {
   FaTachometerAlt,
@@ -14,6 +14,16 @@ const DashboardLayout = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
   const location = useLocation();
+    useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", savedTheme);
+    if (savedTheme === "dark") {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, []);
 
   const dashboardRoutes = [
     {
